@@ -29,7 +29,7 @@ public class HomeController : Controller
             var loginMember = memberServices.Login(member.Email, member.Password);
             HttpContext.Session.SetInt32("LoginUserId", loginMember.MemberId);
 
-            return RedirectToAction("List", "MemberController");
+            return RedirectToAction("Index", "Member");
         }
         catch (Exception ex)
         {

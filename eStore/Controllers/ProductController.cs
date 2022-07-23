@@ -15,6 +15,19 @@ namespace eStore.Controllers
         {
             return View(productServices.GetList());
         }
+        public ActionResult Search(string? search, decimal? priceRange1, decimal? priceRange2)
+        {
+            if (search == null)
+            {
+                search = string.Empty;
+            }
+            var result = from product in productServices.SearchByName(search)
+                         join prod in productServices.SearchByPrice(priceRange1.Value, priceRange2.Value)
+                            on product.ProductId equals prod.ProductId
+                         select product;
+
+            return View("Index", model: result);
+        }
 
         // GET: ProductController/Details/5
         public ActionResult Details(int id)

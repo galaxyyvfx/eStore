@@ -5,7 +5,7 @@
 }
 
 <h1>Delete</h1>
-
+<h4>@ViewBag.Message</h4>
 <h3>Are you sure you want to delete this?</h3>
 <div>
     <h4>OrderDetail</h4>
@@ -44,6 +44,8 @@
     </dl>
     
     <form asp-action="Delete">
+        <input type="hidden" name="orderId" value="@Model.OrderId" />
+        <input type="hidden" name="productId" value="@Model.ProductId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

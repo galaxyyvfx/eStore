@@ -16,6 +16,15 @@ namespace eStore.Controllers
             return View(orderServices.GetList());
         }
 
+        public ActionResult Search(DateTime start, DateTime end)
+        {
+            if (start == null || end == null)
+            {
+                return View("Index", orderServices.GetList());
+            }
+            return View("Index", orderServices.SearchByDate(start, end));
+        }
+
         // GET: OrderController/Details/5
         public ActionResult Details(int? id)
         {

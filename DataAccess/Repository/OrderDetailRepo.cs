@@ -22,7 +22,7 @@ public class OrderDetailRepo : IOrderDetailRepo
         try
         {
             using var dbContext = new FStoreDBContext();
-            var orderDetail = dbContext.OrderDetails.Find(new {orderId, productId});
+            var orderDetail = dbContext.OrderDetails.Find(orderId, productId);
             dbContext.OrderDetails.Remove(orderDetail);
             dbContext.SaveChanges();
         }
@@ -50,7 +50,7 @@ public class OrderDetailRepo : IOrderDetailRepo
         try
         {
             using var dbContext = new FStoreDBContext();
-            return dbContext.OrderDetails.Find(new {orderId, productId});
+            return dbContext.OrderDetails.Find(orderId, productId);
         }
         catch (Exception ex)
         {

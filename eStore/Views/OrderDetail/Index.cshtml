@@ -49,9 +49,9 @@
                 @Html.DisplayFor(modelItem => item.Discount)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id=new{item.OrderId, item.ProductId} }) |
-                @Html.ActionLink("Details", "Details", new { id=new{item.OrderId, item.ProductId} }) |
-                @Html.ActionLink("Delete", "Delete", new { id=new{item.OrderId, item.ProductId} })
+                @Html.ActionLink("Edit", "Edit", new {orderId=item.OrderId, productId=item.ProductId} ) |
+                @Html.ActionLink("Details", "Details", new {orderId=item.OrderId, productId=item.ProductId} ) |
+                @Html.ActionLink("Delete", "Delete", new {orderId=item.OrderId, productId=item.ProductId} )
             </td>
         </tr>
 }
