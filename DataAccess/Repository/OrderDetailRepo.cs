@@ -3,28 +3,72 @@
 namespace DataAccess.Repository;
 public class OrderDetailRepo : IOrderDetailRepo
 {
-    public void AddOrderDetail(Order orderDetail)
+    public void AddOrderDetail(OrderDetail orderDetail)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using var dbContext = new FStoreDBContext();
+            dbContext.OrderDetails.Add(orderDetail);
+            dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public void DeleteOrderDetail(int orderId, int productId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using var dbContext = new FStoreDBContext();
+            var orderDetail = dbContext.OrderDetails.Find(new {orderId, productId});
+            dbContext.OrderDetails.Remove(orderDetail);
+            dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public IEnumerable<OrderDetail> GetList()
     {
-        throw new NotImplementedException();
+        try
+        {
+            using var dbContext = new FStoreDBContext();
+            return dbContext.OrderDetails.ToList();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public OrderDetail GetOrderDetail(int orderId, int productId)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using var dbContext = new FStoreDBContext();
+            return dbContext.OrderDetails.Find(new {orderId, productId});
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
-    public void UpdateOrderDetail(Order orderDetail)
+    public void UpdateOrderDetail(OrderDetail orderDetail)
     {
-        throw new NotImplementedException();
+        try
+        {
+            using var dbContext = new FStoreDBContext();
+            dbContext.Entry<OrderDetail>(orderDetail).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+            dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 }
