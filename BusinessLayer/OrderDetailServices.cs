@@ -4,7 +4,7 @@ using DataAccess.Repository;
 namespace BusinessLayer;
 public class OrderDetailServices : IOrderDetailServices
 {
-    public void AddOrderDetail(Order orderDetail)
+    public void AddOrderDetail(OrderDetail orderDetail)
     {
         try
         {
@@ -56,7 +56,7 @@ public class OrderDetailServices : IOrderDetailServices
         }
     }
 
-    public void UpdateOrderDetail(Order orderDetail)
+    public void UpdateOrderDetail(OrderDetail orderDetail)
     {
         try
         {
