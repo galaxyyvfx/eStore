@@ -50,5 +50,6 @@
 </div>
 <div>
     @Html.ActionLink("Edit", "Edit", new { id=Model.OrderId }) |
+    @Html.ActionLink("Details", "Index", "OrderDetail", new { orderId=Model.OrderId }) |
     <a asp-action="Index">Back to List</a>
 </div>

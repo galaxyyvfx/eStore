@@ -43,6 +43,19 @@ public class OrderDetailServices : IOrderDetailServices
         }
     }
 
+    public IEnumerable<OrderDetail> GetListFromOrder(int orderId)
+    {
+        try
+        {
+            IOrderDetailRepo orderDetailRepo = new OrderDetailRepo();
+            return orderDetailRepo.GetList().Where(od => od.OrderId == orderId);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
+    }
+
     public OrderDetail GetOrderDetail(int orderId, int productId)
     {
         try

@@ -59,6 +59,12 @@ public class OrderServices : IOrderServices
 
     public IEnumerable<Order> SearchByDate(DateTime begin, DateTime end)
     {
+        if (begin > end)
+        {
+            var t = begin;
+            begin = end;
+            end = t;
+        }
         try
         {
             IOrderRepo orderRepo = new OrderRepo();

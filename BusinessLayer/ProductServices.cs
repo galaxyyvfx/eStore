@@ -76,6 +76,12 @@ public class ProductServices : IProductServices
     {
         try
         {
+            if (min>max)
+            {
+                var t = min;
+                min = max;
+                max = t;
+            }
             IProductRepo productRepo = new ProductRepo();
             return from product in productRepo.GetList()
                    where product.UnitPrice >= min && product.UnitPrice <= max

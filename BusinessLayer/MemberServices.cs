@@ -1,10 +1,28 @@
 ﻿using DataAccess.Models;
 using DataAccess.Repository;
+using Microsoft.Extensions.Configuration;
 
 namespace BusinessLayer;
 
 public class MemberServices : IMemberServices
 {
+    private bool checkAdmin(string email, string password)
+    {
+        bool result = false;
+
+        IConfiguration config = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .Build();
+        Console.WriteLine(config.GetSection("AdminUsers").Value);
+        string adminEmail = config["AdminUsers:Email"];
+        string adminPassword = config["AdminUsers:Password"];
+        if (adminEmail == email && adminPassword == password)
+        {
+            result = true;
+        }
+        return result;
+    }
     public void AddMember(Member member)
     {
         try
@@ -59,7 +77,16 @@ public class MemberServices : IMemberServices
 
     public Member Login(string email, string password)
     {
-        try
+        if (checkAdmin(email, password) == true)
+        {
+            return new Member
+            {
+                MemberId = 0,
+                Email = email,
+                Password = password,
+            };
+        }
+        else try
         {
             IMemberRepo memberRepo = new MemberRepo();
             var member = (from mem in memberRepo.GetList()
