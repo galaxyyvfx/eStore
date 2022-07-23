@@ -1,20 +1,34 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using BusinessLayer;
+using DataAccess.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace eStore.Controllers
 {
     public class OrderController : Controller
     {
+        IOrderServices orderServices = null;
+
+        public OrderController() => orderServices = new OrderServices();
         // GET: OrderController
         public ActionResult Index()
         {
-            return View();
+            return View(orderServices.GetList());
         }
 
         // GET: OrderController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = orderServices.GetOrder(id.Value);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
         }
 
         // GET: OrderController/Create
@@ -26,56 +40,90 @@ namespace eStore.Controllers
         // POST: OrderController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Order order)
         {
             try
             {
+                if (ModelState.IsValid)
+                {
+                    orderServices.AddOrder(order);
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Message = ex.Message;
+                return View(order);
             }
         }
 
         // GET: OrderController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = orderServices.GetOrder(id.Value);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
         }
 
         // POST: OrderController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Order order)
         {
             try
             {
+                if (id != order.OrderId)
+                {
+                    return NotFound();
+                }
+                if (ModelState.IsValid)
+                {
+                    orderServices.UpdateOrder(order);
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                ViewBag.Message = ex.Message;
+                return View(order);
             }
         }
 
         // GET: OrderController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var order = orderServices.GetOrder(id.Value);
+            if (order == null)
+            {
+                return NotFound();
+            }
+            return View(order);
         }
 
         // POST: OrderController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id)
         {
             try
             {
+                orderServices.DeleteOrder(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                ViewBag.Message = ex.Message;
                 return View();
             }
         }
